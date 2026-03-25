@@ -31,14 +31,12 @@ int main(int argc, char *argv[]) {
 
     printf("Da ket noi toi server %s:%s\n", argv[1], argv[2]);
 
-    // 🔹 NHẬN LỜI CHÀO TỪ SERVER
     int len = recv(sock, buffer, BUFFER_SIZE - 1, 0);
     if (len > 0) {
         buffer[len] = '\0';
         printf("Server: %s\n", buffer);
     }
 
-    // 🔹 GỬI DỮ LIỆU
     while (1) {
         printf("Nhap du lieu (type 'exit' de thoat): ");
         fgets(buffer, BUFFER_SIZE, stdin);

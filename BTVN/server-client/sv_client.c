@@ -9,7 +9,6 @@
 #define BUFFER_SIZE 1024
 
 int main(int argc, char *argv[]) {
-    // Kiểm tra tham số dòng lệnh
     if (argc != 3) {
         printf("Usage: %s <IP> <PORT>\n", argv[0]);
         return 1;
@@ -19,14 +18,12 @@ int main(int argc, char *argv[]) {
     struct sockaddr_in server_addr;
     char buffer[BUFFER_SIZE];
 
-    // Tạo socket
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
         perror("Socket failed");
         return 1;
     }
 
-    // Cấu hình server
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(atoi(argv[2]));
 
@@ -35,7 +32,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Kết nối
     if (connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
         perror("Connection failed");
         return 1;
@@ -43,7 +39,6 @@ int main(int argc, char *argv[]) {
 
     printf("Da ket noi den sv_server!\n");
 
-    // Nhập thông tin sinh viên
     char mssv[50], name[100], dob[50], gpa[10];
 
     printf("Nhap MSSV: ");
@@ -58,16 +53,13 @@ int main(int argc, char *argv[]) {
     printf("Nhap GPA: ");
     fgets(gpa, sizeof(gpa), stdin);
 
-    // Xóa ký tự xuống dòng '\n'
     mssv[strcspn(mssv, "\n")] = 0;
     name[strcspn(name, "\n")] = 0;
     dob[strcspn(dob, "\n")] = 0;
     gpa[strcspn(gpa, "\n")] = 0;
 
-    // Đóng gói dữ liệu (cách nhau bằng khoảng trắng)
     snprintf(buffer, BUFFER_SIZE, "%s %s %s %s", mssv, name, dob, gpa);
 
-    // Gửi dữ liệu
     if (send(sock, buffer, strlen(buffer), 0) < 0) {
         perror("Send failed");
     } else {
